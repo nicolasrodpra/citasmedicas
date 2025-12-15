@@ -4,6 +4,7 @@ import com.example.sistemaCitaMedicas.entity.Especialidad;
 import com.example.sistemaCitaMedicas.repository.EspecialidadRepository;
 import com.example.sistemaCitaMedicas.service.EspecialidadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,15 @@ public class EspecialidadServiceImpl implements EspecialidadService {
     }
 
     @Override
+    public List<Especialidad> listEspecialidad(Integer limit) {
+        if (limit != null && limit > 0) {
+            // Usar PageRequest para limitar los resultados
+            return especialidadRepository.findAll(PageRequest.of(0, limit)).getContent();
+        }
+        return especialidadRepository.findAll();
+    }
+
+    @Override
     public Especialidad updateEspecialidad(String especialidadId, Especialidad especialidad) {
         Especialidad existente = getById(especialidadId);
         if (existente == null) {
@@ -50,4 +60,3 @@ public class EspecialidadServiceImpl implements EspecialidadService {
         }
     }
 }
-

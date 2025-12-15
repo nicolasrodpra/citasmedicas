@@ -12,6 +12,9 @@ public interface EspecialidadService {
 
     List<Especialidad> listEspecialidad();
 
+
+    List<Especialidad> listEspecialidad(Integer limit);
+
     Especialidad updateEspecialidad(String especialidadId, Especialidad especialidad);
 
     void deleteEspecialidad(String especialidadId);

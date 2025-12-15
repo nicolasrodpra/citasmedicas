@@ -26,7 +26,6 @@ public class Cita_MedicaServiceImpl implements Cita_MedicaService {
     @Autowired
     private DoctorRepository doctorRepository;
 
-
     @Override
     public Cita_Medica registerCita_Medica(Cita_Medica cita_medica) {
         return cita_medicaRepository.save(cita_medica);
@@ -39,7 +38,6 @@ public class Cita_MedicaServiceImpl implements Cita_MedicaService {
 
     @Override
     public Cita_Medica updateCita_Medica(String cita_medicaId, Cita_Medica cita_medica) {
-
         Cita_Medica citaBD = cita_medicaRepository.findById(cita_medicaId)
                 .orElseThrow(() -> new RuntimeException("Cita médica no encontrada"));
 
@@ -52,7 +50,6 @@ public class Cita_MedicaServiceImpl implements Cita_MedicaService {
 
     @Override
     public void deleteCita_Medica(String cita_medicaId) {
-
         Cita_Medica citaExisting = cita_medicaRepository.findById(cita_medicaId)
                 .orElseThrow(() -> new RuntimeException(
                         "Cita médica no encontrada con el ID: " + cita_medicaId
@@ -63,7 +60,6 @@ public class Cita_MedicaServiceImpl implements Cita_MedicaService {
 
     @Override
     public Cita_Medica registerCitaMedicaDTO(CitaMedicaCreateDTO dto) {
-
         // Buscar Paciente
         Paciente paciente = pacienteRepository.findById(dto.getIdPaciente())
                 .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
@@ -92,5 +88,23 @@ public class Cita_MedicaServiceImpl implements Cita_MedicaService {
         citaBD.setMotivo(dto.getMotivo());
 
         return cita_medicaRepository.save(citaBD);
+    }
+
+    @Override
+    public List<Cita_Medica> getCitasByPaciente(Long idPaciente) {
+        // Validar que el paciente existe
+        pacienteRepository.findById(idPaciente)
+                .orElseThrow(() -> new RuntimeException("Paciente no encontrado con ID: " + idPaciente));
+
+        return cita_medicaRepository.findByPacienteIdPaciente(idPaciente);
+    }
+
+    @Override
+    public List<Cita_Medica> getCitasByDoctor(Long idDoctor) {
+        // Validar que el doctor existe
+        doctorRepository.findById(idDoctor)
+                .orElseThrow(() -> new RuntimeException("Doctor no encontrado con ID: " + idDoctor));
+
+        return cita_medicaRepository.findByDoctorIdDoctor(idDoctor);
     }
 }

@@ -2,7 +2,6 @@ package com.example.sistemaCitaMedicas.controller;
 
 import com.example.sistemaCitaMedicas.entity.Especialidad;
 import com.example.sistemaCitaMedicas.service.EspecialidadService;
-import com.example.sistemaCitaMedicas.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +23,11 @@ public class EspecialidadController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Especialidad>> listEspecialidad() {
-        List<Especialidad> especialidad = especialidadService.listEspecialidad();
-        return ResponseEntity.ok(especialidad);
+    public ResponseEntity<List<Especialidad>> listEspecialidad(
+            @RequestParam(required = false) Integer limit) {
+
+        List<Especialidad> especialidades = especialidadService.listEspecialidad(limit);
+        return ResponseEntity.ok(especialidades);
     }
 
     @PutMapping("/update/{especialidadId}")
@@ -50,7 +51,6 @@ public class EspecialidadController {
 
     @DeleteMapping("/delete/{especialidadId}")
     public ResponseEntity<?> deleteVehiculo(@PathVariable String especialidadId) {
-
         try {
             especialidadService.deleteEspecialidad(especialidadId);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -59,5 +59,4 @@ public class EspecialidadController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         }
     }
-
 }

@@ -60,18 +60,28 @@ public class Cita_MedicaController {
         }
     }
 
-
     @PostMapping("/registerDTO")
     public ResponseEntity<Cita_Medica> registerCitaMedicaDTO(@RequestBody CitaMedicaCreateDTO dto) {
-
         Cita_Medica newCita = cita_medicaService.registerCitaMedicaDTO(dto);
         return new ResponseEntity<>(newCita, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateDTO/{id}")
     public ResponseEntity<Cita_Medica> updateCitaMedica(@PathVariable("id") String citaMedicaId, @RequestBody CitaMedicaUpdateDTO updateDTO) {
-
         Cita_Medica updatedCita = citaMedicaService.updateCita_Medica(citaMedicaId, updateDTO);
         return new ResponseEntity<>(updatedCita, HttpStatus.OK);
+    }
+
+    @GetMapping("/paciente/{idPaciente}")
+    public ResponseEntity<List<Cita_Medica>> getCitasByPaciente(@PathVariable Long idPaciente) {
+        List<Cita_Medica> citas = cita_medicaService.getCitasByPaciente(idPaciente);
+        return ResponseEntity.ok(citas);
+    }
+
+
+    @GetMapping("/doctor/{idDoctor}")
+    public ResponseEntity<List<Cita_Medica>> getCitasByDoctor(@PathVariable Long idDoctor) {
+        List<Cita_Medica> citas = cita_medicaService.getCitasByDoctor(idDoctor);
+        return ResponseEntity.ok(citas);
     }
 }

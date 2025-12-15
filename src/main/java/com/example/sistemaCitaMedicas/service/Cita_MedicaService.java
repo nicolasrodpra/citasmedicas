@@ -21,4 +21,8 @@ public interface Cita_MedicaService {
     Cita_Medica registerCitaMedicaDTO(CitaMedicaCreateDTO dto);
 
     Cita_Medica updateCita_Medica(String citaMedicaId, CitaMedicaUpdateDTO dto);
+
+    List<Cita_Medica> getCitasByPaciente(Long idPaciente);
+
+    List<Cita_Medica> getCitasByDoctor(Long idDoctor);
 }
